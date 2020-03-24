@@ -23,18 +23,16 @@ class MainActivity : AppCompatActivity() {
 
     private val reminders = arrayListOf<Reminder>()
     private val reminderAdapter = ReminderAdapter(reminders)
+    private lateinit var reminderRepository: ReminderRepository
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        reminderRepository = ReminderRepository(this)
 
         initViews();
-
-        fabAdd.setOnClickListener {
-            startAddActivity()
-        }
     }
 
     private fun initViews() {
@@ -43,6 +41,18 @@ class MainActivity : AppCompatActivity() {
         rvReminders.adapter = reminderAdapter
         rvReminders.addItemDecoration(DividerItemDecoration(this@MainActivity, DividerItemDecoration.VERTICAL))
         createItemTouchHelper().attachToRecyclerView(rvReminders)
+        getRemindersFromDatabase()
+
+        fabAdd.setOnClickListener {
+            startAddActivity()
+        }
+    }
+
+    private fun getRemindersFromDatabase() {
+        val reminders = reminderRepository.getAllReminders()
+        this@MainActivity.reminders.clear()
+        this@MainActivity.reminders.addAll(reminders)
+        reminderAdapter.notifyDataSetChanged()
     }
 
     private fun startAddActivity() {
