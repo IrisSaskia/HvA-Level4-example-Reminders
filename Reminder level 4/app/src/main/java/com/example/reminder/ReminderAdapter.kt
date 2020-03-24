@@ -1,6 +1,5 @@
 package com.example.reminder
 
-import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

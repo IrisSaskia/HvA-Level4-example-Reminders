@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = [Reminder::class], version = 1, exportSchema = false)
-public abstract class ReminderRoomDatabase : RoomDatabase() {
+abstract class ReminderRoomDatabase : RoomDatabase() {
     abstract fun reminderDao(): ReminderDAO
 
     companion object {

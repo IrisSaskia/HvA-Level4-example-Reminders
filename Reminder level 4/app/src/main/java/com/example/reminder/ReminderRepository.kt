@@ -2,7 +2,7 @@ package com.example.reminder
 
 import android.content.Context
 
-public class ReminderRepository(context: Context) {
+class ReminderRepository(context: Context) {
     private var reminderDao: ReminderDAO
 
     init {

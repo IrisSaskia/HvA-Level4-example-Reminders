@@ -3,7 +3,6 @@ package com.example.reminder
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -11,9 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_add.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_add.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.activity_main.toolbar as toolbar
 
@@ -65,25 +62,12 @@ class MainActivity : AppCompatActivity() {
             when (requestCode) {
                 ADD_REMINDER_REQUEST_CODE -> {
                     val reminder = data!!.getParcelableExtra<Reminder>(EXTRA_REMINDER)
-//                    reminders.add(reminder)
-//                    reminderAdapter.notifyDataSetChanged()
                     reminderRepository.insertReminder(reminder)
                     getRemindersFromDatabase()
                 }
             }
         }
     }
-
-    // addReminder method
-//    private fun addReminder(reminder: String) {
-//        if (reminder.isNotBlank()) {
-//            reminders.add(Reminder(reminder))
-//            reminderAdapter.notifyDataSetChanged()
-//            etAddReminder.text?.clear()
-//        } else {
-//            Snackbar.make(etAddReminder, "You must fill in the input field!", Snackbar.LENGTH_SHORT).show()
-//        }
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -124,12 +108,11 @@ class MainActivity : AppCompatActivity() {
             // Callback triggered when a user swiped an item.
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                reminders.removeAt(position)
-                reminderAdapter.notifyDataSetChanged()
+                val reminderToDelete = reminders[position]
+                reminderRepository.deleteReminder(reminderToDelete)
+                getRemindersFromDatabase()
             }
         }
         return ItemTouchHelper(callback)
     }
-
-
 }
