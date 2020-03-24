@@ -65,8 +65,10 @@ class MainActivity : AppCompatActivity() {
             when (requestCode) {
                 ADD_REMINDER_REQUEST_CODE -> {
                     val reminder = data!!.getParcelableExtra<Reminder>(EXTRA_REMINDER)
-                    reminders.add(reminder)
-                    reminderAdapter.notifyDataSetChanged()
+//                    reminders.add(reminder)
+//                    reminderAdapter.notifyDataSetChanged()
+                    reminderRepository.insertReminder(reminder)
+                    getRemindersFromDatabase()
                 }
             }
         }
